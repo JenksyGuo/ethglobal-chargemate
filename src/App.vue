@@ -7,7 +7,9 @@
           padding=40
         >
         <b-card-img :src="require('./assets/dwetransfer-logo.png')" />
-        <b-card-title>WeTransfer in the Web 3.0</b-card-title>
+        <br />
+        <br />
+        <b-card-title>🚗 Drive Green ⚡️</b-card-title>
 
         <FileUploader 
           v-if="
@@ -88,7 +90,7 @@ export default {
 
 <style>
 #app {
-  background-image: url('./assets/background.jpg');
+  /* background-image: url('./assets/background.jpg'); */
   padding: 25px
 }
 

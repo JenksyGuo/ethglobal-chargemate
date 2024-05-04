@@ -1,19 +1,27 @@
 <template>
   <div id="FileUploader">
-    <b-form-file
+    <!-- <b-form-file
       v-model="files"
       v-if="address!==null"
       :state="Boolean(files)"
       placeholder="Choose a file or drop it here..."
       :multiple="true"
-    ></b-form-file>
+    ></b-form-file> -->
 
-    <p v-if="address===null">Make 1 ether payment to upload file. </p>
+    <p v-if="address===null">Connect Your Wallet </p>
     
     <br />
     <br />
 
-    <b-button-group v-if="sending===false">
+    <br /><br />
+      <p v-if="address!==null && sending===false">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wallet" viewBox="0 0 16 16">
+          <path d="M0 3a2 2 0 0 1 2-2h13.5a.5.5 0 0 1 0 1H15v2a1 1 0 0 1 1 1v8.5a1.5 1.5 0 0 1-1.5 1.5h-12A2.5 2.5 0 0 1 0 12.5zm1 1.732V12.5A1.5 1.5 0 0 0 2.5 14h12a.5.5 0 0 0 .5-.5V5H2a2 2 0 0 1-1-.268M1 3a1 1 0 0 0 1 1h12V2H2a1 1 0 0 0-1 1"/>
+        </svg>
+        {{ address[0].slice(0,3) }}...{{ address[0].slice(-4) }}</p>
+      <br /><br />
+
+    <div v-if="sending===false">
       <b-button
         v-if="address===null"
         variant="secondary"
@@ -21,19 +29,26 @@
       > 
         Connect My Wallet
       </b-button>
-
-
+      
       <b-button
         v-if="address!==null"
-        variant="primary"
+        variant="outline-dark"
         @click="uploadFile(files)"
       > 
-        Upload via IPFS
+        Connect MANTLE
+      </b-button>
+      <br />
+      <br />
+      <b-button
+        v-if="address!==null"
+        variant="outline-dark"
+        @click="switchtoBase()"
+      > 
+      Connect &nbsp;&nbsp;BASE&nbsp;&nbsp;&nbsp;&nbsp;
       </b-button>
       
-    </b-button-group>
+    </div>
 
-    <p v-if="address!==null && sending===false">Connected wallet: {{ address[0] }}</p>
 
     <div v-if="sending===true">
       <b-spinner label="Spinning"></b-spinner>
@@ -60,6 +75,12 @@
       }
     },
     methods: {
+      async switchtoBase() {
+        window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: '0x14a34' }]
+        }).then(response => console.log(response))
+      },
 
       async requestAccount() {
         var currentAccount = null;
